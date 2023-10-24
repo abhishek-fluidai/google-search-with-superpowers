@@ -1,6 +1,8 @@
 
 # Google Search with Superpowers 
 
+> Please updated the .env file with your own OPEN_AI_KEY.
+
 ### Steps to run the project
 ---
 1. Clone the project
@@ -22,13 +24,11 @@
 ---
 ```json
 {   
-    "gpt_meta_info": [
-		{
+    "gpt_meta_info": [{
 			"meta_description": "meta_description",
             "meta_title": "meta_title",
             "meta_keywords": "meta_keywords"
-        }
-	],
+    }],
 	"meta_info": [
         {
             "meta_title": "meta_title",
