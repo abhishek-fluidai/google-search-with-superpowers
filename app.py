@@ -2,10 +2,12 @@ import json
 import os
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from search import get_meta_information, generate_new_data_from_gpt3, search
 
 # Flask app
 app = Flask(__name__)
+CORS(app)
 
 ###
 # API endpoints
@@ -60,9 +62,7 @@ def search_handler():
         'gpt_meta_info': json.loads(new_meta_info["choices"][0]["message"]["content"])
     }
     print('* Returning results')
-    response = jsonify(search_results)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
+    return jsonify(search_results), 200
 
 
 ##
