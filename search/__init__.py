@@ -16,6 +16,10 @@ OPEN_AI_KEY = os.environ.get("OPEN_AI_KEY")
 
 
 # Logging configuration
+if not os.path.exists('logs'):
+    os.makedirs('logs', exist_ok=True)
+    open('logs/error.log', 'a').close()
+
 logging.basicConfig(level=logging.ERROR, datefmt='%d-%b-%y %H:%M:%S', filename='logs/error.log')
 
 ###

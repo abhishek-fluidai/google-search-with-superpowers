@@ -5,6 +5,11 @@ from bs4 import BeautifulSoup
 import requests
 import logging
 
+# Logging configuration
+if not os.path.exists('logs'):
+    os.makedirs('logs', exist_ok=True)
+    open('logs/error.log', 'a').close()
+
 logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', filename='logs/error.log')
 
 # get proxies from file
