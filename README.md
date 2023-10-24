@@ -3,6 +3,10 @@
 
 > Please updated the .env file with your own OPEN_AI_KEY.
 
+### Demo
+---
+![Demo](assets/demo.png)
+
 ### Steps to run the project
 ---
 1. Clone the project
@@ -68,6 +72,9 @@ OPEN_AI_KEY = API_KEY
 ### Directory Structure
 ---
 ```bash
+├── assets
+│   ├── demo.png
+│   ├── example_return_data.json
 ├── search
 │   ├── __init__.py
 │   ├── user_agents.py

@@ -27,7 +27,7 @@ def search_handler():
 
     #############
     # Step 2: Performing search
-    print('Performing search for query: ' + search_query)
+    print('\nPerforming search for query: ' + search_query)
     results = search(search_query, advanced=True,
                      page=page_num, num_results=10)
     results = list(results)

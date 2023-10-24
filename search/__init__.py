@@ -76,39 +76,44 @@ def _req(term, results, lang, start,timeout, is_retry=False, proxy=None):
             logging.error("No more proxies available.")
             refresh_proxies()
         return _req(term, results, lang, start,timeout, is_retry=1)
-
+        
     except exceptions.Timeout as e:
         logging.error("Request timed out.")
         print("Request timed out.")
         return _error_resp("Request timed out.", 500)
 
-    except Exception as e:        
-        # If proxy is banned, remove it and retry
-        if (e.response and e.response.status_code == 429):
+    except exceptions.HTTPError as e:
+        if (e.response.status_code == 429):
             logging.error(f"Proxy {proxies['proxy']} has been banned by Google.")
             remove_proxy(proxies['index'])
             ## If no more proxies, get more proxies
             if get_proxy_list_length() == 0:
-                # Enhancement: Send alert 
+                # Enhancement: Send alert
+                message = "No more proxies available."
+                logging.error(message)
+                print(message)
                 refresh_proxies()
-                return _req(term, results, lang, start,timeout, is_retry=1)
-
-            ## If its second time retrying, return error
-            if (is_retry == 1):
+            if (is_retry ==1):
                 proxy_url = get_one_proxy()
                 if proxy_url:
-                    return _req(term, results, lang, start,timeout, is_retry=1, proxy=proxy_url)
+                    return _req(term, results, lang, start,timeout, is_retry=2, proxy=proxy_url)
                 else:
                     message = "No more proxies available."
+                    print(message)
                     logging.error(message)
                     return _error_resp(message, 500)
-            elif (is_retry == 2):
+            if (is_retry == 2):
                 message = "Request failed with retry."
+                print(message)
                 logging.error(message)
                 return _error_resp(message, 500)
-            return _req(term, results, lang, start,timeout, is_retry=2)
+            return _req(term, results, lang, start,timeout, is_retry=1)
+        else:
+            logging.error(e)
+            return _error_resp(e,500)
+    except Exception as e:        
         logging.error(e)
-        return error_resp(e, 500)
+        return _error_resp(e,500)
 
 def search(term, num_results=10, lang="en", page=1, sleep_interval=0, timeout=60, advanced=False):
     """Search the Google search engine with pagination support
@@ -202,6 +207,7 @@ def generate_new_data_from_gpt3(num_data = 2, result_data = []):
         ],
         temperature=0.8,
         max_tokens=1000,
+        
     )
     return response
 
