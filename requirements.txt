@@ -1,0 +1,7 @@
+beautifulsoup4==4.12.2
+lxml==4.9.2
+regex==2023.6.3
+urllib3==1.26.17
+flask==3.0.0
+openai==0.28.1
+python-dotenv-1.0.0
