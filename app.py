@@ -60,7 +60,9 @@ def search_handler():
         'gpt_meta_info': json.loads(new_meta_info["choices"][0]["message"]["content"])
     }
     print('* Returning results')
-    return jsonify(search_results)
+    response = jsonify(search_results)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 ##
