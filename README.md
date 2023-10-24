@@ -3,11 +3,9 @@
 
 > Please updated the .env file with your own OPEN_AI_KEY.
 
-### Demo
----
-![Demo](assets/demo.png)
+![Demo](./assets/demo.png)
 
-### Steps to run the project
+ Steps to run the project
 ---
 1. Clone the project
 2. Run `pip install -r requirements.txt`
