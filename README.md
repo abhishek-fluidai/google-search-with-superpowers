@@ -11,7 +11,7 @@
 ### API Endpoints
 ---
 /search - POST
-```
+``` json
 {
     "query": "query string",
     "page": 1
@@ -20,9 +20,9 @@
 
 ### Response
 ---
-```
+```json
 {   
-    ""gpt_meta_info": [
+    "gpt_meta_info": [
 		{
 			"meta_description": "meta_description",
             "meta_title": "meta_title",
@@ -51,15 +51,15 @@
 
 ### Error Response
 ---
-```
+```json
 {
     "error": "error message"
 }
 ```
 
-### Global Variables - (search/__init__.py)
+### Environment Variables  - (.env)
 ---
-```
+```env
 USE_FREE_PROXIES = Boolean
 PAID_PROXY_API = URL
 OPEN_AI_KEY = API_KEY
@@ -67,7 +67,7 @@ OPEN_AI_KEY = API_KEY
 
 ### Directory Structure
 ---
-```
+```bash
 ├── search
 │   ├── __init__.py
 │   ├── user_agents.py
