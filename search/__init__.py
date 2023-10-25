@@ -67,6 +67,7 @@ def _req(term, results, lang, start,timeout, is_retry=False, proxy=None):
         return resp
         
     except exceptions.ProxyError as e:
+        print(e)
         # If paid proxy is down
         if (USE_FREE_PROXIES is False):
             message = "Proxy server is down."
@@ -79,16 +80,20 @@ def _req(term, results, lang, start,timeout, is_retry=False, proxy=None):
             # Enhancement: Send alert and refresh proxies in background
             logging.error("No more proxies available.")
             refresh_proxies()
+        print("Retrying with new proxy.")
         return _req(term, results, lang, start,timeout, is_retry=1)
         
     except exceptions.Timeout as e:
-        if (is_retry ==1):
+        print(e)
+        if (is_retry == 1):
             logging.error("Request timed out.")
             print("Request timed out.")
             return _error_resp("Request timed out.", 500)
+        print("Retrying with new proxy.")
         return _req(term, results, lang, start,timeout, is_retry=1)
 
     except exceptions.HTTPError as e:
+        print(e)
         if (e.response.status_code == 429):
             logging.error(f"Proxy {proxies['proxy']} has been banned by Google.")
             remove_proxy(proxies['index'])
@@ -100,8 +105,10 @@ def _req(term, results, lang, start,timeout, is_retry=False, proxy=None):
                 print(message)
                 refresh_proxies()
             if (is_retry ==1):
+                print("Getting new proxy.")
                 proxy_url = get_one_proxy()
                 if proxy_url:
+                    print("Retrying with new proxy.")
                     return _req(term, results, lang, start,timeout, is_retry=2, proxy=proxy_url)
                 else:
                     message = "No more proxies available."
@@ -113,11 +120,13 @@ def _req(term, results, lang, start,timeout, is_retry=False, proxy=None):
                 print(message)
                 logging.error(message)
                 return _error_resp(message, 500)
+            print("Retrying with new proxy.")
             return _req(term, results, lang, start,timeout, is_retry=1)
         else:
             logging.error(e)
             return _error_resp(e,500)
-    except Exception as e:        
+    except Exception as e: 
+        print(e)       
         logging.error(e)
         return _error_resp(e,500)
 

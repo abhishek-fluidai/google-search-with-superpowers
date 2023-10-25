@@ -44,12 +44,12 @@ def search_handler():
     for x in results:
         resp = get_meta_information(x.url)
         meta_info.append(resp)
-    print('* Extracted meta information for ' + str(len(meta_info)) + ' results')
+    print('* Extracted meta information of ' + str(len(results)) + ' results')
 
     #############
     # Step 4: Generating new data from GPT3
     new_meta_info = generate_new_data_from_gpt3(2, meta_info)
-    print('* Generated new meta information for ' + str(len(new_meta_info)) + ' results')
+    print('* Generated new meta information based on ' + str(len(meta_info)) + ' results')
 
     #############
     # Step 5: Returning results
