@@ -80,7 +80,7 @@ def _req(term, results, lang, start,timeout, is_retry=False, proxy=None):
             # Enhancement: Send alert and refresh proxies in background
             logging.error("No more proxies available.")
             refresh_proxies()
-        print("Retrying with new proxy.")
+        print("Proxy is down. Retrying with new proxy.")
         return _req(term, results, lang, start,timeout, is_retry=1)
         
     except exceptions.Timeout as e:
@@ -89,7 +89,8 @@ def _req(term, results, lang, start,timeout, is_retry=False, proxy=None):
             logging.error("Request timed out.")
             print("Request timed out.")
             return _error_resp("Request timed out.", 500)
-        print("Retrying with new proxy.")
+        remove_proxy(proxies['index'])
+        print("Timeout. Retrying with new proxy.")
         return _req(term, results, lang, start,timeout, is_retry=1)
 
     except exceptions.HTTPError as e:
@@ -184,7 +185,7 @@ def search(term, num_results=10, lang="en", page=1, sleep_interval=0, timeout=30
         if sleep_interval > 0 and start < end:
             sleep(sleep_interval)
 
-def get_meta_information(url, timeout=10):
+def get_meta_information(url, timeout=5):
     try:
         resp = get(url, timeout=timeout)
         resp.raise_for_status()

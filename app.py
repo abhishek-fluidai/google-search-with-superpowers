@@ -12,7 +12,6 @@ CORS(app)
 ###
 # API endpoints
 
-
 @app.route('/search', methods=['POST'])
 def search_handler():
     search_query = request.json.get('query')
