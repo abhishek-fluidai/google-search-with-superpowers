@@ -76,7 +76,7 @@ def _req(term, results, lang, start,timeout, is_retry=False, proxy=None):
         logging.error(f"Proxy {proxies['proxy']} is down.")
         ## If no more proxies, get more proxies
         if get_proxy_list_length() == 0:
-            # Enhancement: Send alert
+            # Enhancement: Send alert and refresh proxies in background
             logging.error("No more proxies available.")
             refresh_proxies()
         return _req(term, results, lang, start,timeout, is_retry=1)
@@ -94,7 +94,7 @@ def _req(term, results, lang, start,timeout, is_retry=False, proxy=None):
             remove_proxy(proxies['index'])
             ## If no more proxies, get more proxies
             if get_proxy_list_length() == 0:
-                # Enhancement: Send alert
+                # Enhancement: Send alert and refresh proxies in background
                 message = "No more proxies available."
                 logging.error(message)
                 print(message)
