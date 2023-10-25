@@ -82,9 +82,11 @@ def _req(term, results, lang, start,timeout, is_retry=False, proxy=None):
         return _req(term, results, lang, start,timeout, is_retry=1)
         
     except exceptions.Timeout as e:
-        logging.error("Request timed out.")
-        print("Request timed out.")
-        return _error_resp("Request timed out.", 500)
+        if (is_retry ==1):
+            logging.error("Request timed out.")
+            print("Request timed out.")
+            return _error_resp("Request timed out.", 500)
+        return _req(term, results, lang, start,timeout, is_retry=1)
 
     except exceptions.HTTPError as e:
         if (e.response.status_code == 429):
@@ -119,7 +121,7 @@ def _req(term, results, lang, start,timeout, is_retry=False, proxy=None):
         logging.error(e)
         return _error_resp(e,500)
 
-def search(term, num_results=10, lang="en", page=1, sleep_interval=0, timeout=60, advanced=False):
+def search(term, num_results=10, lang="en", page=1, sleep_interval=0, timeout=30, advanced=False):
     """Search the Google search engine with pagination support
         term: Term to search for
         num_results: Number of results to return
